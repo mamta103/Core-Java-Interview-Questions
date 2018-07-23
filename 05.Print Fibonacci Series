@@ -1,0 +1,49 @@
+05.Print Fibonacci Series 
+1, 1, 2, 3, 5, 8, 13, 21, 24, ...
+Fibonacci Series Algorithm:
+
+Logic:
+Start:-
+Declare variables i, a,b , show
+Initialize the variables, a=0, b=1, and show =0
+Enter the number of terms of Fibonacci series to be printed
+Print First two terms of series
+Use loop for the following steps
+-> show=a+b
+-> a=b
+-> b=show
+-> increase value of i each time by 1
+-> print the value of show
+End
+
+package io.javabrains;
+
+import java.util.Scanner;
+
+public class Fibbonacci {
+	public static void main(String[] args) {
+		int a = 0;
+		int b = 1;
+
+		System.out.println("Enter the number of terms of Fibonacci series to be printed: ");
+		Scanner scanner = new Scanner(System.in);
+		int n = scanner.nextInt();
+		printFibbonacciSeries(a, b, n);
+
+	}
+
+	private static int printFibbonacciSeries(int a, int b, int n) {
+		int show = 0;
+		System.out.println(a);
+		System.out.println(b);
+		for (int j = 1; j <= n; j++) {
+			show = a + b;
+			a = b;
+			b = show;
+			System.out.println(show);
+
+		}//end of for loop
+		return show;
+
+	}//end of printFibbonacciSeries()
+}
