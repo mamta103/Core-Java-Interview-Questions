@@ -30,3 +30,55 @@ public class PrimeNumber {
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 Prime Number Sequences
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+1.have to check reminder till to (n-1) >0 then will consider prime number .
+example : n=5 
+5%2= 1;
+5%3= 2;
+5%4= 1;
+n prime or composite
+n 2...............n-1;
+if any case reminder would be zero will not prime number or else prime number.
+2.Pseudo Number:
+boolean flag= true;
+for(int i= 1;i<=100; i++){
+  for(int j=i; j<i-1; j++)
+  {
+  if(i%j ==0)
+  {
+      flag = false;
+      break;
+  }//closing if
+  }//closing inner for
+    flag= true;
+    print(i);
+}//closing outer for
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+package io.javabrains;
+import java.util.Scanner;
+public class PrimeNumber {
+	public static void main(String[] args) {
+		System.out.println("Enter number to check for prime number on console: ");
+		Scanner scanner = new Scanner(System.in);
+		int limit = scanner.nextInt();
+		for (int i = 1; i <= limit; i++) {
+			boolean flag = true;
+			for (int j = 2; j < i - 1; j++) {
+				if (i % j == 0) {
+					flag = false;
+					break;
+				} // end of if
+			} // end of inner for loop
+			if (flag == true) {
+				System.out.print(i + "\t");
+			} // end of if condition
+
+		} // end of for outer loop
+
+	}
+
+}
+output:Enter number to check for prime number on console: 
+20
+1	2	3	5	7	11	13	17	19
