@@ -1,0 +1,251 @@
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/*
+ * Input.txt (cardNumber|CustomerName|BillAmt|DueDate|PaymentDate)
+ 4000000000011|nizampatnam|1000|01012017|05012017
+ 4000000000012|Anusha|2000|01022017|31012017
+ 340000000001|swetha|3000|01032017|05032017
+ 350000000002|Sravani|4000|01042017|05042017
+
+ VISA card  -  total 16 digit,  number starts with 4
+ AMEX card – total 15 digit, number starts with 34 / 37
+
+ Validations – throw custom exception:
+ 1.	If input text not available, not able to read (ie. For FileNotFound/IO exceptions) 
+ 2.	If card number invalid (not VISA/AMEX)
+ 3. Date validation(dd/MM/yyyy)
+ 4. 
+
+ Business logic:
+ 1.	If customer paid bill amt before due date, then he is categorized as ‘A’ GRADE otherwise ‘B’
+ 2.	For fine calculation
+ a.	VISA CARD
+ i.	If payment date – due date <= 5 then  fine = billAmt * 10%
+ i.	If payment date – due date > 5 then  fine = billAmt * 20%
+ b.	AMEX CARD
+ i.	If payment date – due date <= 5 then  fine = billAmt * 10%
+ ii.	If payment date – due date > 5 and billamount <15k then  fine = billAmt * 20%
+ ii.	If payment date – due date > 5 and billamount>15k then fine = billAmt * 30%
+ 
+NOTE: remove duplicates if same record exists, by overriding it based on the latest payment date.
+
+ Expected OUTPUT (cardNumber|CustomerName|BillAmt|DueDate|PaymentDate|fine|Grade)  
+ 4000000000011|nizampatnam|1000|01-01-2017|05-01-2017|100|A
+ 4000000000012|Anusha|2000|01022017|31012017|200|B
+ 340000000001|swetha|3000|01032017|05032017|300|B
+ 350000000002|Sravani|4000|01042017|05042017|400|B
+
+ Map<Integer, Map<String, CardVO>>  
+
+ 1 -  4000000000011 -  card detail object
+	  4000000000012-  card detail object
+
+ 2 -  340000000001-  card detail object
+      350000000002-  card detail object
+
+ * 
+ * 
+ * 
+ * */
+public class CardDetail {
+	public static void main(String[] args) {
+		CardDetail cardDetail = new CardDetail();
+		try {
+			System.out.println(cardDetail.calculateCardFineDetails("input.txt"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public Map calculateCardFineDetails(String fileName) throws Exception {
+		Map<Integer, Map<String, CreditCardVO>> map = new HashMap<Integer, Map<String, CreditCardVO>>();
+		File file = new File(fileName);
+		if (!file.exists()) {
+			throw new CreditCardValidationException("Invalid file path");
+		}
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(file));
+			Map<String, CreditCardVO> visaMap = new HashMap<String, CreditCardVO>();
+			Map<String, CreditCardVO> amexMap = new HashMap<String, CreditCardVO>();
+			List<CreditCardVO> visaList = new ArrayList<CreditCardVO>();
+			List<CreditCardVO> amexList = new ArrayList<CreditCardVO>();
+			String line = null;
+			while ((line = br.readLine()) != null) {
+				CreditCardVO cardVO = new CreditCardVO();
+				String[] strArr = line.split("\\|");
+				cardVO.setCustomerName(strArr[1]);
+				cardVO.setBillAmount(Integer.parseInt(strArr[2]));
+				String creditCardNo = strArr[0];
+				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+				sdf.setLenient(false);
+				try {
+					Date dueDate = sdf.parse(strArr[3]);
+					cardVO.setDueDate(dueDate);
+					Date paymentDate = sdf.parse(strArr[4]);
+					cardVO.setPaymentDate(paymentDate);
+
+				} catch (ParseException e) {
+					throw new CreditCardValidationException(
+							"invalid date format");
+				}
+				if (creditCardNo.matches("[4]{1}[0-9]{15}")) {
+					cardVO.setCreditCardNumber(creditCardNo);
+					visaList.add(cardVO);
+				} else if (creditCardNo.matches("(34|37)[0-9]{13}")) {
+					cardVO.setCreditCardNumber(creditCardNo);
+					amexList.add(cardVO);
+				} else {
+					throw new CreditCardValidationException(
+							"invalid credit card number");
+				}
+			}
+
+			for (CreditCardVO cardVO : visaList) {
+				if (cardVO.getPaymentDate().getTime() < cardVO.getDueDate()
+						.getTime()) {
+					cardVO.setGrade("A");
+				} else {
+					cardVO.setGrade("B");
+					long diff = (cardVO.getPaymentDate().getTime() - cardVO
+							.getDueDate().getTime());
+					int days = (int) (diff / (1000 * 60 * 60 * 24));
+					if (days <= 5) {
+						cardVO.setFine(cardVO.getBillAmount() * 0.1);
+					} else {
+						cardVO.setFine(cardVO.getBillAmount() * 0.2);
+					}
+
+				}
+				removeDuplicates(visaMap, cardVO);
+			}
+			for (CreditCardVO cardVO : amexList) {
+				if (cardVO.getPaymentDate().getTime() < cardVO.getDueDate()
+						.getTime()) {
+					cardVO.setGrade("A");
+				} else {
+					cardVO.setGrade("B");
+					long diff = (cardVO.getPaymentDate().getTime() - cardVO
+							.getDueDate().getTime());
+					int days = (int) (diff / (1000 * 60 * 60 * 24));
+					if (days <= 5) {
+						cardVO.setFine(cardVO.getBillAmount() * 0.1);
+					} else {
+						if (cardVO.getBillAmount() < 15000)
+							cardVO.setFine(cardVO.getBillAmount() * 0.2);
+						else
+							cardVO.setFine(cardVO.getBillAmount() * 0.3);
+					}
+
+				}
+				removeDuplicates(amexMap, cardVO);
+			}
+			map.put(1, visaMap);
+			map.put(2, amexMap);
+
+		} catch (Exception e) {
+			throw new CreditCardValidationException(e.getMessage());
+		}
+		return map;
+	}
+
+	private void removeDuplicates(Map<String, CreditCardVO> map,
+			CreditCardVO cardVO) {
+		if (map.containsKey(cardVO.getCreditCardNumber())) {
+			if (map.get(cardVO.getCreditCardNumber()).getPaymentDate()
+					.getTime() < cardVO.getPaymentDate().getTime()) {
+				map.put(cardVO.getCreditCardNumber(), cardVO);
+			}
+		} else {
+			map.put(cardVO.getCreditCardNumber(), cardVO);
+		}
+	}
+}
+
+class CreditCardVO {
+	private String creditCardNumber;
+	private String customerName;
+	private int billAmount;
+	private Date dueDate;
+	private Date paymentDate;
+	private double fine;
+	private String grade;
+
+	public String getCreditCardNumber() {
+		return creditCardNumber;
+	}
+
+	public void setCreditCardNumber(String creditCardNumber) {
+		this.creditCardNumber = creditCardNumber;
+	}
+
+	public String getCustomerName() {
+		return customerName;
+	}
+
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
+	}
+
+	public int getBillAmount() {
+		return billAmount;
+	}
+
+	public void setBillAmount(int billAmount) {
+		this.billAmount = billAmount;
+	}
+
+	public Date getDueDate() {
+		return dueDate;
+	}
+
+	public void setDueDate(Date dueDate) {
+		this.dueDate = dueDate;
+	}
+
+	public Date getPaymentDate() {
+		return paymentDate;
+	}
+
+	public void setPaymentDate(Date paymentDate) {
+		this.paymentDate = paymentDate;
+	}
+
+	public double getFine() {
+		return fine;
+	}
+
+	public void setFine(double fine) {
+		this.fine = fine;
+	}
+
+	public String getGrade() {
+		return grade;
+	}
+
+	public void setGrade(String grade) {
+		this.grade = grade;
+	}
+
+	@Override
+	public String toString() {
+		return "CreditCardVO [creditCardNumber=" + creditCardNumber
+				+ ", customerName=" + customerName + ", billAmount="
+				+ billAmount + ", dueDate=" + dueDate + ", paymentDate="
+				+ paymentDate + ", fine=" + fine + ", grade=" + grade + "]";
+	}
+}
+
+class CreditCardValidationException extends Exception {
+	CreditCardValidationException(String str) {
+		super(str);
+	}
+}
