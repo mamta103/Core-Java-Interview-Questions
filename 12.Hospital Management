@@ -1,0 +1,308 @@
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+/**
+ * 
+ * @author 479298(Pushker Jog)
+ *
+ */
+public class HospitalManagementTool {
+	/*
+	 * Please Dont change any return type or signature of method.Use same
+	 * skeleton
+	 * 
+	 * 
+	 * copy below sample csv input to a text file
+	 * 
+	 * pushker jog,IN321,M,1234-GEN,23/11/2011,27/11/2011 
+	 * Anusha N,IN221,F,1124-GEN,13/11/2011,27/11/2011 
+	 * Akash Sharma,OUT31,F,1231-NEU,01/11/2011,27/11/2012
+	 * vinayak Nair,IN121,M,2234-NEU,23/11/2011,27/12/2011
+	 * Vipul Potdar,OUT321,M,9594-ENT,13/08/2012,27/11/2012
+	 * Snigda,OUT321,F,3454-ENT,01/11/2011,01/11/2012
+	 * -------------------------------------------------------------------------
+	 * ------- Input CSV file contains patient
+	 *  Name,patient Category,Gender,physicianID,admission date,discharge date
+	 * -------------------------------------------------------------------------
+	 * ------- validation 
+	 * 1) All field should be present 
+	 * 2) Discharge Date  should not be greater then admission date 
+	 * 3) Name can contain only	  Alphabet and white space. Regex is "[a-zA-Z ]+" 
+	 * 4) patient category  should start with IN or OUT followed by integer ex: IN421,OUT47,IN1 Regex
+	 * is "((OUT)|(IN))[0-9]+"
+	 *  5) Date format should be always dd/MM/yyyy.Use Simple Date Formatter 
+	 *  6) physician Id should always start with 4 digit integer followed by hyphen (-) and then
+	 *  followed by GEN or ENT or NEU ex: 1231-NEU,9594-ENT,1234-GEN regular expression is
+	 * "[0-9]{4}-((NEU)|(GEN)|(ENT))"
+	 * ------------------------------------------------------------------------------------- 
+	 * getPatientDetails should return a Map<Integer,Map> of
+	 * Integer as key and Value as Map 
+	 * key    Value 
+	 * 1     Map<String,ArrayList<Patient>> 
+	 * 2      Map<String,Integer>
+	 * ------------------------------------------------------------------------------------ 
+	 * For key 1 the inner Map Should be Key Value String
+	 * (Admission Date) ArrayList of all the patient admitted on that day
+	 * 
+	 * Following are the tariff for for specialist 
+	 * GEN 1250 
+	 * ENT 1500 
+	 * NEU 1750
+	 * 
+	 * Also calculate the bill of each customer and populate in customerVO based
+	 * on following
+	 * 
+	 * number of days patient been in hospital (Discharge Date - Admission date) * Tariff
+	 * 
+	 * to calculate days refer following snippet of code SimpleDateFormat sdf =
+	 * new SimpleDateFormat("dd/MM/yyyy"); Date date1 = sdf.parse("08/08/2011");
+	 * Date date2 = sdf.parse("10/08/2011"); long days =(date2.getTime() -
+	 * date1.getTime())/(1000*60*60*24);
+	 * ------------------------------------------------------------------------------------- 
+	 * For Key 2 the inner Map should be Key Value String
+	 * (specialist) Integer (Number of patient admitted to that specialist)
+	 * 
+	 * ex: Key | Value
+	 *      GEN | 2 
+	 *      ENT | 2 
+	 *      NEU | 2
+	 * ----------------------------------------------------------------------------------- 
+	 * Note: On failure of any Validation throw PatientException
+	 * Please have proper null checks
+	 * 
+	 */
+
+	public static void main(String[] args)  {
+		HospitalManagementTool hospitalManagementTool = new HospitalManagementTool();
+		try {
+			System.out.println(hospitalManagementTool.getPatientDetails("D:\\input.txt"));
+			
+			//System.out.println("ADCD123422**,,".matches("[A-Z]{4}[0-9]{4}(22).{4}"));
+		} catch (PatientException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+	}
+
+	private Map<Integer, Map> getPatientDetails(String filePath) throws PatientException {
+
+		File file = new File(filePath);
+		Map<Integer, Map> retMap = new HashMap<Integer,Map>();
+		Map<String,List<Patient>> patientMap1 = new HashMap<String,List<Patient>>();
+		Map<String,Integer> patientMap2 = new HashMap<String,Integer>();
+		patientMap2.put("NEU", 0);
+		patientMap2.put("GEN", 0);
+		patientMap2.put("ENT", 0);
+		List<Patient> patientList = new ArrayList<Patient>();
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		sdf.setLenient(false);
+		
+		try {
+			
+			if (file.exists()) {
+				BufferedReader br = new BufferedReader(new FileReader(file));
+				String line = null;
+				while ((line = br.readLine()) != null) {
+				Patient patient = new Patient();
+					String[] strArray = line.split(",");
+					if(strArray.length!= 6){
+						throw new PatientException("invalid number of argument");
+					}
+					for(String str : strArray){
+						if(null == str || str.isEmpty()){
+							throw new PatientException("field is empty " + str);
+						}
+					}
+					
+					
+				 patient.setAdmissionDate(sdf.parse(strArray[4]));
+				 patient.setDischargeDate(sdf.parse(strArray[5]));
+				if(patient.getAdmissionDate().after(patient.getDischargeDate())){
+					throw new PatientException("discharge date should be greater than admission ");
+				}
+				if(strArray[0].matches("[a-zA-Z ]+"))	{
+					patient.setName(strArray[0]);
+				}
+				else{
+					throw new PatientException("invalid name");
+
+				}
+				if(strArray[1].matches("((OUT)|(IN))[0-9]+"))	{
+					patient.setPatientCategory(strArray[1]);
+				}
+				else{
+					throw new PatientException("invalid PatientPategory");
+
+				}
+				if(!strArray[2].isEmpty())	{
+					patient.setGender(strArray[2]);
+				}
+				else{
+					throw new PatientException("invalid gender");
+
+				}
+				if(strArray[3].matches("[0-9]{4}-((NEU)|(GEN)|(ENT))"))	{
+					patient.setPhysicianCategory(strArray[3]);
+				}
+				else{
+					throw new PatientException("invalid Physician Category");
+
+				}
+						
+				patientList.add(patient);
+				}
+				
+				for(Patient patient : patientList){
+					int days =(int) (patient.getDischargeDate().getTime() - patient.getAdmissionDate().getTime())/(1000*60*60*24); 
+					
+					if(patient.getPhysicianCategory().endsWith("GEN")){
+						patient.setBill(days * 1250);
+						patientMap2.put("GEN", patientMap2.get("GEN")+1);
+					}
+					if(patient.getPhysicianCategory().endsWith("ENT")){
+						patient.setBill(days * 1500);
+						patientMap2.put("ENT", patientMap2.get("ENT")+1);
+					}
+					if(patient.getPhysicianCategory().endsWith("NEU")){
+						patient.setBill(days * 1750);
+						patientMap2.put("NEU", patientMap2.get("NEU")+1);
+					}
+					if(patientMap1.containsKey(sdf.format(patient.getAdmissionDate()))){
+						patientMap1.get(sdf.format(patient.getAdmissionDate())).add(patient);
+					}
+					else{
+						List list = new ArrayList<Patient>();
+						list.add(patient);
+						patientMap1.put(sdf.format(patient.getAdmissionDate()),list);
+
+					}
+					
+				}
+				retMap.put(1, patientMap1);
+				retMap.put(2, patientMap2);
+			}
+			
+			
+			
+		} catch (FileNotFoundException e) {
+			throw new PatientException(e);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			throw new PatientException(e);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			throw new PatientException(e);
+		}
+
+		return retMap;
+	}
+
+	class Patient {
+
+		private String name;
+		private String gender;
+		private Date admissionDate;
+		private Date dischargeDate;
+		private int bill;
+		private String patientPategory;
+		private String physicianCategory;
+
+		public String getName() {
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
+		}
+
+		public String getGender() {
+			return gender;
+		}
+
+		public void setGender(String gender) {
+			this.gender = gender;
+		}
+
+		public Date getAdmissionDate() {
+			return admissionDate;
+		}
+
+		public void setAdmissionDate(Date admissionDate) {
+			this.admissionDate = admissionDate;
+		}
+
+		public Date getDischargeDate() {
+			return dischargeDate;
+		}
+
+		public void setDischargeDate(Date dischargeDate) {
+			this.dischargeDate = dischargeDate;
+		}
+
+		public int getBill() {
+			return bill;
+		}
+
+		public void setBill(int bill) {
+			this.bill = bill;
+		}
+
+		public String getPatientPategory() {
+			return patientPategory;
+		}
+
+		public void setPatientCategory(String patientPategory) {
+			this.patientPategory = patientPategory;
+		}
+
+		public String getPhysicianCategory() {
+			return physicianCategory;
+		}
+
+		public void setPhysicianCategory(String physicianCategory) {
+			this.physicianCategory = physicianCategory;
+		}
+
+		@Override
+		public String toString() {
+			return "patient [name=" + name + ", gender=" + gender + ", admissionDate=" + admissionDate
+					+ ", dischargeDate=" + dischargeDate + ", bill=" + bill + ", patientPategory=" + patientPategory
+					+ ", physicianCategory=" + physicianCategory + "]";
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+
+			return super.equals(obj);
+		}
+
+	}
+
+	class PatientException extends Exception {
+		public PatientException(String exc) {
+			// TODO Auto-generated constructor stub
+			super(exc);
+		}
+
+		public PatientException(Throwable throwable) {
+			// TODO Auto-generated constructor stub
+			super(throwable);
+		}
+
+		public PatientException(String exc, Throwable throwable) {
+			// TODO Auto-generated constructor stub
+			super(exc, throwable);
+		}
+	}
+}
