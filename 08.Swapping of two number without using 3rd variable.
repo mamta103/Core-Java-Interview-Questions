@@ -1,0 +1,28 @@
+/*
+Swaaping of two number without third variable.
+*/
+package io.javabrains;
+import java.util.Scanner;
+public class SwappingWithoutThirdVariable {
+	public static void main(String[] args) {
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("Enter first number on console: ");
+		int num1 = scanner.nextInt();
+		System.out.println("Enter second number on console: ");
+		int num2 = scanner.nextInt();
+		num1 = num1 + num2;
+		num2 = num1 - num2;
+		num1 = num1 - num2;
+		System.out.println("After swapping ");
+		System.out.print(num1 + "\t" + num2);
+
+	}
+}
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+Output:
+Enter first number on console: 
+12
+Enter second number on console: 
+13
+After swapping 
+13	12
