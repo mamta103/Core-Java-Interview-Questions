@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class PrimeNumber {
 	public static void main(String[] args) {
-		System.out.println("Enter number to check for prime number: ");
+		System.out.println("Enter number to check for prime number on console: ");
 		Scanner scanner = new Scanner(System.in);
 		int n = scanner.nextInt();
 		if (isPrime(n)) {
@@ -27,3 +27,6 @@ public class PrimeNumber {
 		return true;
 	}
 }
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+Prime Number Sequences
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
