@@ -1,0 +1,328 @@
+input.txt
+John Adam;IN483;M;5438-NEU;06/06/2012;10/06/2012
+Catherine;OUT100;F;3242-GEN;29/03/2012;03/04/2012
+david paul;IN32;M;3923-ENT;01/01/2012;12/01/2012
+Paul Kemble;IN34;M;3902-GEN;07/11/2010;06/12/2011
+Scott Thomas;IN35;M;3904-NEU;07/11/2010;12/12/2011
+Mithchelle Lurie;OUT36;F;3922-ENT;06/06/2012;12/09/2012
+----------------------------------------------------------------------------------
+public class PatientInformationDetailsException extends Exception {
+PatientInformationDetailsException(String msg){
+super(msg);
+}
+
+}
+
+----------------------------------------------------------------------------------
+PatientInformationTool
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.text.DateFormat;
+import java.text. seException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+public class PatientInformationTool {
+public static void main(String[] args) {
+String filePath = "hosp.txt";
+PatientInformationTool pit = new PatientInformationTool();
+
+try{
+System.out.println(pit.getPatientDetails(filePath));
+}
+catch(Exception e){
+e.printStackTrace();
+}
+
+}
+     
+ public Map<Integer, Map> getPatientDetails(String filepath) throws PatientInformationDetailsException{
+Map<Integer,Map> finalMap  = new HashMap<>();
+Map<String,List<PatientVO>> innerMap1 = new HashMap<>();
+ Map<String,List<PatientVO>> innerMap3 = new HashMap<>();
+Map<String,Integer> innerMap2 = new HashMap<>();
+//List<PatientVO> pList1 = new ArrayList<>();
+List<PatientVO> pList2 = new ArrayList<>();
+Set<Date> allDate = new HashSet<>();
+List<Date> dList  = new ArrayList<>();
+
+File file = new File(filepath);
+String line = null;
+String str[] = null;
+int genCount = 0;
+int neuCount = 0;
+int entCount = 0;
+
+try{
+BufferedReader br = new BufferedReader(new FileReader(file));
+ while((line = br.readLine()) != null){
+ PatientVO pvo = new PatientVO();
+ str = line.split(";");
+ if(str.length != 6){
+ throw new PatientInformationDetailsException("All fields are mandatory");
+ }
+ for(String arr:str){
+if(arr.isEmpty() || arr.equals(null)){
+ throw new PatientInformationDetailsException("Fields cannot be null");
+}
+
+ }
+ if(str[0].matches("[ A-Za-z]+")){
+pvo.setPatientName(str[0]);
+ //System.out.println(pvo.getPatientName());
+ }
+ else{
+   throw new PatientInformationDetailsException("Name should contain only alphabets and spaces");
+ }
+ SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+ sdf.setLenient(false);
+ try {
+Date admissDate = sdf. se(str[4]);
+allDate.add(admissDate);
+pvo.setAdmnDate(admissDate);
+Date dischDate = sdf. se(str[5]);
+pvo.setDischDate(dischDate);
+
+} catch ( seException e) {
+ throw new PatientInformationDetailsException(
+ "invalid date format");
+}
+  Calendar admn  = Calendar.getInstance();
+  Calendar disch  = Calendar.getInstance();
+  pvo.setGender(str[2]);
+  admn.setTime(pvo.getAdmnDate());
+  disch.setTime(pvo.getDischDate());
+  if(admn.after(disch))\{\ 
+ throw new PatientInformationDetailsException("Admission Date cannot be greater than discharge date");
+  }
+ // System.out.println(admn.getTime());
+  if(str[1].matches("(IN|OUT)[0-9]+")){
+ pvo.setMrn(str[1]);
+  //System.out.println(pvo.getMrn());
+  }
+  else\{
+ throw new PatientInformationDetailsException("MRN is Invalid");
+}
+if(str[3].matches("[0-9]\{4\}+[-](GEN|NEU|ENT)")){
+ pvo.setPhysID(str[3]);
+ //System.out.println(pvo.getPhysID());
+ // System.out.println(pvo);
+}
+else{
+  throw new PatientInformationDetailsException("Physician Id is not in appt format");
+}
+
+long diff = Math.abs( pvo.getDischDate().getTime() - pvo.getAdmnDate().getTime());
+long noofdays = (diff/(1000*24*60*60));
+int billamt = 0;
+
+//System.out.println(noofdays);
+String cat[] = pvo.getPhysID().split("-");
+if(cat[1].equals("GEN")){
+billamt = (int) (noofdays *1250);
+pvo.setBill(billamt);
+genCount++;
+innerMap2.put("GEN", genCount);
+}
+if(cat[1].equals("NEU")){
+ billamt = (int) (noofdays * 1500);
+ pvo.setBill(billamt);
+ neuCount++;
+ innerMap2.put("NEU", neuCount);
+}
+if(cat[1].equals("ENT")){
+  billamt = (int) (noofdays * 1750);
+  pvo.setBill(billamt);
+  entCount++;
+  innerMap2.put("ENT", entCount);
+}
+ pList2.add(pvo);
+
+ //System.out.println(pList2);
+ /*for(PatientVO pv:pList2)\{
+if(pv.getAdmnDate().equals(str[4]))\{
+ innerMap1.put(str[4], pList2);
+}*/
+}
+ dList.addAll(allDate);
+// System.out.println(pList2);
+ DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+ for(Date dl:dList)
+    { 
+     ArrayList<PatientVO> inner=new ArrayList<PatientVO>();
+    for(PatientVO al:pList2)
+    {
+    if(dl.equals(al.getAdmnDate()))
+    { 
+        inner.add(al);
+    }
+    }
+    innerMap1.put(df.format(dl), inner);
+   }
+    
+
+finalMap.put(1, innerMap1);
+finalMap.put(2, innerMap2);
+
+ }
+    catch(Exception e){ 
+      e.printStackTrace(); 
+    } 
+   return finalMap; 
+   
+ }
+}     
+    
+    
+  
+  
+   
+  d sa200 sl276 slmult1 qj lang9 -------------------------------------------------------------------------------\ 
+ ul PatientVO  
+  d sl276 slmult1 qj lang1033 ulnone import java.util.Date; 
+  
+public class PatientVO { 
+private String patientName; 
+private String mrn; 
+private String gender; 
+private String physID;
+private Date admnDate; 
+private int Bill;
+public PatientVO() { 
+   super(); 
+   // TODO Auto-generated constructor stub  
+} 
+public PatientVO(String patientName, String mrn, String gender, String physID, Date admnDate, int bill, 
+     Date dischDate) { 
+   super(); 
+   this.patientName = patientName; 
+   this.mrn = mrn; 
+   this.gender = gender; 
+   this.physID = physID; 
+   this.admnDate = admnDate; 
+   Bill = bill; 
+   this.dischDate = dischDate; 
+} 
+public int getBill() { 
+   return Bill; 
+} 
+public void setBill(int bill) { 
+   Bill = bill; 
+} 
+Date dischDate; 
+public String getPatientName() { 
+   return patientName; 
+\}\ 
+public void setPatientName(String patientName) { 
+   this.patientName = patientName;\ 
+\}\ 
+public String getMrn() \{\ 
+   return mrn;\ 
+\}\ 
+public PatientVO(String patientName, String mrn, String gender, String physID, Date admnDate, Date dischDate) \{\ 
+   super();\ 
+   this.patientName = patientName;\ 
+   this.mrn = mrn;\ 
+   this.gender = gender;\ 
+   this.physID = physID;\ 
+   this.admnDate = admnDate;\ 
+   this.dischDate = dischDate;\ 
+\}\ 
+@Override  
+public String toString() \{\ 
+   return "PatientVO [patientName=" + patientName + ", mrn=" + mrn + ", gender=" + gender + ", physID=" + physID  
+       + ", admnDate=" + admnDate + ", Bill=" + Bill + ", dischDate=" + dischDate + "]";\ 
+\}\ 
+@Override  
+public int hashCode() \{\ 
+   final int prime = 31;\ 
+   int result = 1;\ 
+   result = prime * result + Bill;\ 
+   result = prime * result + ((admnDate == null) ? 0 : admnDate.hashCode());\ 
+   result = prime * result + ((dischDate == null) ? 0 : dischDate.hashCode());\ 
+   result = prime * result + ((gender == null) ? 0 : gender.hashCode());\ 
+   result = prime * result + ((mrn == null) ? 0 : mrn.hashCode());\ 
+   result = prime * result + ((patientName == null) ? 0 : patientName.hashCode());\ 
+   result = prime * result + ((physID == null) ? 0 : physID.hashCode());\ 
+   return result;\ 
+\}\ 
+@Override  
+public boolean equals(Object obj) \{\ 
+   if (this == obj)\ 
+     return true;\ 
+   if (obj == null)\ 
+     return false;\ 
+   if (getClass() != obj.getClass())\ 
+     return false;\ 
+   PatientVO other = (PatientVO) obj;\ 
+   if (Bill != other.Bill)\ 
+     return false;\ 
+   if (admnDate == null) \{\ 
+     if (other.admnDate != null)\ 
+       return false;\ 
+  \} else if (!admnDate.equals(other.admnDate))\ 
+     return false;\ 
+   if (dischDate == null) \{\ 
+     if (other.dischDate != null)\ 
+       return false;\ 
+  \} else if (!dischDate.equals(other.dischDate))\ 
+     return false;\ 
+   if (gender == null) \{\ 
+     if (other.gender != null)\ 
+       return false;\ 
+  \} else if (!gender.equals(other.gender))\ 
+     return false;\ 
+   if (mrn == null) \{\ 
+     if (other.mrn != null)\ 
+       return false;\ 
+  \} else if (!mrn.equals(other.mrn))\ 
+     return false;\ 
+   if (patientName == null) \{\ 
+     if (other.patientName != null)\ 
+       return false;\ 
+  \} else if (!patientName.equals(other.patientName))\ 
+     return false;\ 
+   if (physID == null) \{\ 
+     if (other.physID != null)\ 
+       return false;\ 
+  \} else if (!physID.equals(other.physID))\ 
+     return false;\ 
+   return true;\ 
+\}\ 
+public void setMrn(String mrn) \{\ 
+   this.mrn = mrn;\ 
+\}\ 
+public String getGender() \{\ 
+   return gender;\ 
+\}\ 
+public void setGender(String gender) \{\ 
+   this.gender = gender;\ 
+\}\ 
+public String getPhysID() \{\ 
+   return physID;\ 
+\}\ 
+public void setPhysID(String physID) \{\ 
+   this.physID = physID;\ 
+\}\ 
+public Date getAdmnDate() \{\ 
+   return admnDate;\ 
+\}\ 
+public void setAdmnDate(Date admnDate) \{\ 
+   this.admnDate = admnDate;\ 
+\}\ 
+public Date getDischDate() \{\ 
+   return dischDate;\ 
+\}\ 
+public void setDischDate(Date dischDate) \{\ 
+   this.dischDate = dischDate;\ 
+\}\ 
+\}\ 
+  
