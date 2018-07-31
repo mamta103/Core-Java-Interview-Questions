@@ -4,7 +4,43 @@ Hello:-5
 World:-5
 Here we have a find out number of words insentence and the coressponding character count of each word.
 1.Here first we create an char array from given String using String class toCharArray() methods.
-2.now we will use iterate the char array using for loop.inside for loop we declare a string with emplty implmentation.
+2.now we will use iterate the char array using for loop.inside for loop we declare a string with empty implmentation.
 3.whenever we found an alphabet we will perform concatination of that alphabet with the string variable and increment the value of i.
 4.now when i reach to a space it will come out from the while loop and now string variavle has the word which previous of space.
-5.
+5.now will print string with length of string.
+***********************************************************************************************************************************
+***********************************************************************************************************************************
+package io.javabrains;
+
+public class CountCharacters {
+	public static void main(String[] args) {
+		String str = "Hello World Java ";
+		count(str);
+	}
+
+	private static void count(String str) {
+		
+		// Create a char array of given String
+		char[] ch = str.toCharArray();
+
+		for (int i = 0; i < ch.length; i++) {
+
+			// Declear an String with Empty Initialization
+			String s = "";
+			while (i < ch.length && ch[i] != ' ') {
+				
+				//Concat with the declared String
+				s = s + ch[i];
+				i++;
+			} // End of while Loop
+			if(s.length() >0 )
+				System.out.println(s+" ->"+s.length());
+			
+		} // End of For loop
+	}
+}
+***********************************************************************************************************************************
+***********************************************************************************************************************************
+Hello ->5
+World ->5
+Java ->4
