@@ -1,13 +1,14 @@
 1.How to remove the duplicates From String in java?
-example:Mamta
-output:Mat
+Example:Mamta
+Output:Mat
 1.Create a string  in which duplicate has to be removed.
 2.Write a method for removeDuplicates which accepts String and it should return String.
 3.It removeDuplicates method create a hashSet.
 4.Create a StringBuffer.
-5.Converting String into character Arrays.
-6.take each character from array and check in hashset if it is not persent in hashSet add to hashSet and bufferReader.
-7.After iterating each character in string return the string Object from this method.
+5.Loop through the each character in the string.
+6.Converting String into character Arrays.
+7.Take each character from array and check in hashset if it is not persent in hashSet add to hashSet and bufferReader.
+8.After iterating each character in string return the string Object from this method.
 
 *********************************************************************************************************************************
 *********************************************************************************************************************************
