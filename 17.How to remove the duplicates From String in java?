@@ -9,10 +9,37 @@ Output:Mat
 6.Converting String into character Arrays.
 7.Take each character from array and check in hashset if it is not persent in hashSet add to hashSet and bufferReader.
 8.After iterating each character in string return the string Object from this method.
-
 *********************************************************************************************************************************
 *********************************************************************************************************************************
 
+package io.javabrains;
+
+import java.util.HashSet;
+import java.util.Set;
+
+public class StringDuplicates {
+	public static void main(String[] args) {
+		String str = "mamta";
+		System.out.println(stringDuplicates(str));
+
+	}
+
+	private static StringBuffer stringDuplicates(String str) {
+		Set<Character> set = new HashSet<>();
+		StringBuffer sf = new StringBuffer();
+
+		for (int i = 0; i < str.length(); i++) {
+			Character ch = str.charAt(i);
+			
+			if (!set.contains(ch)) {
+				set.add(ch);
+				sf.append(ch);
+			}
+		}
+		return sf;
+
+	}
+}
 
 
 *********************************************************************************************************************************
