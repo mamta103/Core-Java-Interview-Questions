@@ -1,0 +1,10 @@
+
+example: "Hello World"
+Hello:-5
+World:-5
+Here we have a find out number of words insentence and the coressponding character count of each word.
+1.Here first we create an char array from given String using String class toCharArray() methods.
+2.now we will use iterate the char array using for loop.inside for loop we declare a string with emplty implmentation.
+3.whenever we found an alphabet we will perform concatination of that alphabet with the string variable and increment the value of i.
+4.now when i reach to a space it will come out from the while loop and now string variavle has the word which previous of space.
+5.
