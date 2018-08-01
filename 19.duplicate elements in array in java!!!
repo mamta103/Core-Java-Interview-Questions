@@ -1,1 +1,40 @@
+::::::::::::Write java program to find duplicate elements in array in java?:::::::::::::::::::::::::::::::::::::::::
+1.Create an array and enter input in array.
+2.Create an empty set and name is non-duplicate set.
+3.Create an empty set and name it duplicate set.
+4.Iterate through the each element in array and check whether non-duplicate contains element .if persent add it is in duplicate set.
+5.if it is not persent then add it in non-duplicate array.
+6.finally print set of duplicate set.
+Code***********************************************************************************************************
+
+package io.javabrains;
+
+import java.util.HashSet;
+import java.util.Set;
+
+public class PrintDuplicateArrayElement {
+	public static void main(String[] args) {
+		String[] _duplicates = {"Java", "Hibernate", "Spring", "Java"};
+		Set<String> _duplicateSet = new HashSet<>();
+		Set<String> _nonDuplicateSet = new HashSet<>();
+		System.out.println("_duplicateSet:- "+_duplicateSet);
+		System.out.println("_nonDuplicateSet:- "+_nonDuplicateSet);
+		for (String duplicates : _duplicates) {
+			if (!_nonDuplicateSet.contains(duplicates))
+				_nonDuplicateSet.add(duplicates);
+			else
+				_duplicateSet.add(duplicates);
+
+		}
+		System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::");
+		System.out.println("_duplicateSet:- "+_duplicateSet);
+		System.out.println("_nonDuplicateSet:- "+_nonDuplicateSet);
+	}
+}
+OutputCode***********************************************************************************************************
+_duplicateSet:- []
+_nonDuplicateSet:- []
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+_duplicateSet:- [Java]
+_nonDuplicateSet:- [Java, Hibernate, Spring]
 
