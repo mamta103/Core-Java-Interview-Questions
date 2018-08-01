@@ -1,1 +1,34 @@
 write a java program to implement bubble sort - Part 1
+package io.javabrains;
+
+public class BubbleSorting {
+public static void main(String[] args) {
+	int[] arr={12,1,13,2,14,3,15,5};
+	System.out.print("Before Soting:- ");
+	for(int list:arr){
+		System.out.print(list+" ");
+	}
+	bubbleSorting(arr);
+	System.out.println();
+	System.out.print(" After Soting:- ");
+	for(int list:arr){
+		System.out.print(list+" ");
+	}
+}
+
+private static void bubbleSorting(int[] arr) {
+	int temp=0;
+	for(int i=0;i<=arr.length; i++){
+		for(int j=1; j<arr.length-i;j++){
+			if(arr[j-1]>arr[j]){
+				temp= arr[j-1];
+				arr[j-1]= arr[j];
+				arr[j]=temp;
+			}
+		}
+	}
+}
+}
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+Before Soting:- 12 1 13 2 14 3 15 5 
+ After Soting:- 1 2 3 5 12 13 14 15 
