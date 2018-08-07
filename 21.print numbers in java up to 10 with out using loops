@@ -1,0 +1,23 @@
+w.a.p to print numbers in java up to10 with out using loops?
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+package io.javabrains;
+
+import datastructure.MainLinkedList;
+
+public class PrintNumbers {
+	public static void main(String[] args) {
+		printNumber(1);
+
+	}
+
+	private static void printNumber(int i) {
+		if (i <= 20) {
+			System.out.print(i + " ");
+			i++;
+			printNumber(i);
+		} // End of if
+
+	}// End of printNumber function
+}
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+1 2 3 4 5 6 7 8 9 10 
