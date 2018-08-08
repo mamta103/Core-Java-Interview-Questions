@@ -1,0 +1,35 @@
+How to find largest and smallest values in an array in java?
+1.Create an array elements with some elements.
+2.initaize the minimumValue with Integer.MaxValue and
+  maximumValue with Integer.MinValue.
+ 
+ ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+ package io.javabrains;
+
+public class LargestSmallestNumberDemo {
+	public static void main(String[] args) {
+
+		int[] array = { 1, 10, 100, 1000, 10000 };
+		int smallestElement = Integer.MAX_VALUE;
+		int largestValue = Integer.MIN_VALUE;
+
+		for (Integer number : array) {
+			if (number < smallestElement) {
+				smallestElement = number;
+
+			}
+		}
+		System.out.println("Current smallest element present in Array: " + smallestElement);
+
+		for (Integer number : array) {
+			if (number > largestValue) {
+				largestValue = number;
+
+			}
+		}
+		System.out.println("Current largestValue element present in Array: " + largestValue);
+	}
+}
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+Current smallest element present in Array: 1
+Current largestValue element present in Array: 10000
