@@ -1,0 +1,32 @@
+Java Pyramid Pattern Example:
+54321      ->5    1 to 5
+4321       ->4    1 to 4
+321        ->3    1 to 3
+21         ->2    1 to 2
+1          ->1    1 to 1
+
+for(int i=5; i>0; i++){
+  for(int j=1; j<=i; j++){
+  System.out.print(j);
+  }System.out.print("");
+}
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+package io.javabrains;
+
+public class PyramidSample {
+	public static void main(String[] args) {
+		for (int i = 5; i > 0; i--) {
+			for (int j = 1; j <= i; j++) {
+				System.out.print(j);
+			}
+			System.out.println("");
+
+		}
+	}
+}
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+12345
+1234
+123
+12
+1
