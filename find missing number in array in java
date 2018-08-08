@@ -1,0 +1,31 @@
+Write a java program to find missing number in array in java.
+1.initialze one integer array.
+2.need to know actual size array.
+3.calculate expected total with formula n*(n*1)/2.
+4.calculate actual today adding each element in the array.
+5.Deducted expected and actual which will give you missing element.
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+package io.javabrains;
+
+import java.util.Arrays;
+
+public class ArrayMissingElement {
+	public static void main(String[] args) {
+		int[] array = { 1, 2, 3, 4, 6 };
+		int missingArray = missingArrayElementFind(array, 6);
+		System.out.printf("Missing Number in array %s is %d %n ", Arrays.toString(array), missingArray);
+	}
+
+	private static int missingArrayElementFind(int[] array, int actualArrayLength) {
+		int actualTotalSum = (actualArrayLength * (actualArrayLength + 1) / 2);
+		int expected = 0;
+		for (int i : array) {
+			expected = expected + i;
+		}
+		return actualTotalSum - expected;
+	}
+}
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+Missing Number in array [1, 2, 3, 4, 6] is 5 
