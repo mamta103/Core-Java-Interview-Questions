@@ -1,0 +1,6 @@
+Write a java program to check string is palindrome or not?
+1.if a Straing same as like while do Reverse called "Palindrome".
+Step1: Input a string.
+Step2: Find the reverse of String.
+Step3:Check the Orginal String and Reverse String are same or not.
+Step4:If both equal called palindrome or else not Palindrome.
