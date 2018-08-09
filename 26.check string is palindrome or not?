@@ -10,28 +10,25 @@ package io.javabrains;
 import java.util.Scanner;
 
 public class StringPalindromeDemo {
-	 public static void main(String args[])
-	    {
-	        String a;
-	        String b= "";
-	        Scanner s= new Scanner(System.in);
-	        System.out.print("Enter the string you want to check:");
-	        a= s.nextLine();
-	        int n = a.length();
-	        for(int i= n - 1; i>= 0; i--)
-	        {
-	            b = b + a.charAt(i);
-	        }
-	        if(a.equalsIgnoreCase(b))
-	        {
-	            System.out.println("The string is palindrome.");
-	        }
-	        else
-	        {
-	            System.out.println("The string is not palindrome.");
-	        }
-	    }
+	public static void main(String args[]) {
+
+		String originalString;
+		String reverseString = "";
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("Enter String : ");
+		originalString = scanner.nextLine();
+		int length = originalString.length();
+		for (int i = length - 1; i >= 0; i--) {
+			reverseString = reverseString + originalString.charAt(i);
+		}
+		if (reverseString.equalsIgnoreCase(originalString)) {
+			System.out.println("The string is palindrome.");
+		} else {
+			System.out.println("The string is not palindrome.");
+		}
+	}
 }
+
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 Enter the string you want to check:Madam
 The string is palindrome.
