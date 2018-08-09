@@ -19,3 +19,26 @@ Vowel letters: o
 Vowel letters: i
 Vowel letters: a
 Count of Vowel: 3
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+package io.javabrains;
+
+//How to count number of vowels in a string in java?
+public class VowelDemo {
+	public static void main(String[] args) {
+		String string = "cognizant";
+	    char[] character= string.toCharArray();
+	    int count= 0;
+	    for(char c:character){
+	    	switch(c){
+	    	case 'a':
+	    	case 'e':
+	    	case 'i':
+	    	case 'o':
+		case 'u':
+	    		count++;
+	    			break;
+	    	}
+	    }
+	   
+	System.out.println("Number of Vowels in String:- "+count);}
+}
