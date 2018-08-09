@@ -1,0 +1,32 @@
+write a java program to find second largest element in the array in the java
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+package io.javabrains;
+
+public class ArraySecondLargestNumber {
+	public static void main(String[] args) {
+		int[] arr = new int[] { 1, 11, 2, 22, 3, 33, 4, 44, 5, 55 };
+		int temp = 0;
+
+		for (int i = 0; i <= arr.length; i++) {
+			for (int j = 1; j < arr.length - i; j++) {
+				if (arr[j - 1] > arr[j]) {
+					temp = arr[j - 1];
+					arr[j - 1] = arr[j];
+					arr[j] = temp;
+				}
+			}
+		}
+		for(int list:arr){
+			System.out.print(list+" ");
+		}
+		System.out.println();
+		for(int i=0; i<=arr.length-1;i++){
+			System.out.println("Second Largest element in Array: "+arr[arr.length-2]);
+			break;
+		}
+		
+	}
+}
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+1 2 3 4 5 11 22 33 44 55 
+Second Largest element in Array: 44
