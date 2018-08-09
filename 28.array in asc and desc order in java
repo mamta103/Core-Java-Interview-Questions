@@ -1,1 +1,39 @@
 How to sort elements in array in asc and desc order in java?
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+package io.javabrains;
+//How to sort elements in array in asc and desc order in java?
+
+public class AsendingDesendingArray {
+	public static void main(String[] args) {
+		int[] arr = new int[] { 1, 11, 2, 22, 3, 33, 4, 44, 5, 55 };
+		for (int arraySequence : arr) {
+			System.out.print(arraySequence + " ");
+		}
+		int temp = 0;
+		for (int i = 0; i <= arr.length; i++) {
+			for (int j = 1; j < arr.length-1; j++) {
+				if (arr[j] > arr[j + 1]) {
+					temp = arr[j];
+					arr[j] = arr[j + 1];
+					arr[j + 1] = temp;
+
+				}
+			}
+		}
+		System.out.println();
+		System.out.print("Asending Order: ");
+		for (int arraySequence : arr) {
+			System.out.print(arraySequence + " ");
+		}	
+		System.out.println();
+		System.out.print("Desending Order: ");
+
+		for(int i=arr.length-1; i>=0;i--){
+			System.out.print(arr[i]+" ");
+		}
+	}
+}
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+1 11 2 22 3 33 4 44 5 55 
+Asending Order: 1 2 3 4 5 11 22 33 44 55 
+Desending Order: 55 44 33 22 11 5 4 3 2 1 
