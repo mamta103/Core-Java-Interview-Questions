@@ -29,6 +29,7 @@ public class StringPalindromeDemo {
 	}
 }
 
+
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 Enter the string you want to check:Madam
 The string is palindrome.
