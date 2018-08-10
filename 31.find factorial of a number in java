@@ -1,0 +1,27 @@
+Write a java program to find factorial of a number in java?
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+!2= 2*1    =2
+!3= 3*2*1  = 6
+!4= 4*3*2*1= 12
+
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+Step1.Take a number variable.
+Step2.Take one variable and initialized it 1.
+Step3:Iterate upto that number to find  factorial and store it n fact variable.
+Step4.Finally print variable.
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+package io.javabrains;
+
+public class FactorialNumber {
+	public static void main(String[] args) {
+		int inputNumber = 5;
+		int fact= 1;
+		for(int i=1;i<= inputNumber; i++){
+			fact= fact *i;
+		}
+		System.out.println("Factorial Number: "+fact);
+	}
+}
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::;;;
+Factorial Number: 120
