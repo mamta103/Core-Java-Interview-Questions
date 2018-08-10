@@ -1,0 +1,32 @@
+Write a java program to find reverse of a string in java?
+Step1.Input a String.
+Step2.Take one String name it Reverse and initialze it empty:String reverseString=""
+Step3.Extract last character from input string and put it in reverseString.
+Step4.Finally print reverse String.
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+package io.javabrains;
+
+import java.util.Scanner;
+
+public class ReversingString {
+	public static void main(String[] args) {
+		Scanner scan = new Scanner(System.in);
+		System.out.println("Enter input String:- ");
+		String inputString = scan.nextLine();
+		String reverseString = "";
+		System.out.println("String before Reverse: " + inputString);
+		for (int i = inputString.length()-1; i >= 0; i--) {
+			reverseString = reverseString + inputString.charAt(i);
+		}
+		System.out.println("String after Reverse: " + reverseString);
+
+	}
+}
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+Enter input String:- 
+Cognizant Technology Solutions
+String before Reverse: Cognizant Technology Solutions
+String after Reverse: snoituloS ygolonhceT tnazingoC
