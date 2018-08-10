@@ -2,17 +2,24 @@ Write a java program to print multiplication table?
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 package io.javabrains;
 
+import java.util.Scanner;
+
 public class NumberTable {
 	public static void main(String[] args) {
-		int inputNumber = 7;
-		System.out.println("Number table");
+		System.out.println("Enter the number to print Multiplication table");
+		Scanner scanner = new Scanner(System.in);
+		int inputNumber = scanner.nextInt();
+		System.out.println("Number table :" + inputNumber);
 		for (int i = 1; i <= 10; i++) {
 			System.out.print(inputNumber * i + " ");
 		}
 	}
 }
 
+
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-Number table :7
-7 14 21 28 35 42 49 56 63 70 
+Enter the number to print Multiplication table
+8
+Number table :8
+8 16 24 32 40 48 56 64 72 80 
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
