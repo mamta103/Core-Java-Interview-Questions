@@ -1,0 +1,49 @@
+Write a java program to add elements in an array in java
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+package io.javabrains;
+
+import java.util.Scanner;
+
+import datastructure.MainLinkedList;
+
+public class AddAElementArray {
+	public static void main(String[] args) {
+		//Create the Scanner Object for taking Input
+		Scanner scan = new Scanner(System.in);
+		System.out.println("Enter the size of Elements: ");
+		
+		//Take the number of element and store it
+		int n = scan.nextInt();
+		int sum= 0;
+
+		//Create an array of size
+		int[] array = new int[n];
+		System.out.println("Enter the element in the array: ");
+
+		for (int i = 0; i < array.length; i++) {
+			array[i] = scan.nextInt();
+		}
+		System.out.print("List of array:- ");
+		for(int j:array){
+			
+			System.out.println(j+ " ");
+			sum= sum+j;
+		}
+		System.out.println("Sum of Array Element: "+sum);
+	}
+}
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+Output:
+Enter the size of Elements: 
+3
+Enter the element in the array: 
+11
+22
+33
+List of array:- 11 
+22 
+33 
+Sum of Array Element: 66
