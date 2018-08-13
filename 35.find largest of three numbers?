@@ -1,0 +1,41 @@
+Write a java program to find largest of three numbers?
+Step1.Take 3 number from command line.
+Step2.Store the element in 3 variable.
+Step4.Comapre each value with other three value if number is largest print largest Number.
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+package io.javabrains;
+
+import java.util.Scanner;
+
+public class LargestNumberInThreeNumbers {
+	public static void main(String[] args) {
+		Scanner scan = new Scanner(System.in);
+
+		System.out.println("Enter X variable:- ");
+		int x = scan.nextInt();
+
+		System.out.println("Enter Y variable:- ");
+		int y = scan.nextInt();
+
+		System.out.println("Enter Z variable:- ");
+		int z = scan.nextInt();
+
+		if (x > y && x > z) {
+			System.out.println("X is largest:- " + x);
+		} else if (y > x && y > z) {
+			System.out.println("Y is largest:- " + y);
+
+		} else {
+			System.out.println("Z is largest:- " + z);
+
+		}
+	}
+}
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+Enter X variable:- 
+3
+Enter Y variable:- 
+100
+Enter Z variable:- 
+200
+Z is largest:- 200
