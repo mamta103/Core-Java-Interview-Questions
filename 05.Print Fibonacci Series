@@ -47,3 +47,40 @@ public class Fibbonacci {
 
 	}//end of printFibbonacciSeries()
 }
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+Other ways
+package io.javabrains;
+
+import java.util.Scanner;
+
+public class Fibbonacci {
+	public static void main(String[] args) {
+		System.out.println("Enter number of Count:- ");
+		Scanner scan=  new Scanner(System.in);
+		int count= scan.nextInt();
+		
+		int[] intArray= new int[count];
+		intArray[0]= 0;
+		intArray[1]= 1;
+		for (int i = 2; i < intArray.length; i++) {
+			intArray[i]= intArray[i-1]+ intArray[i-2];
+		}
+		System.out.println("********************************************");
+		System.out.println("Display Fibonacci Series: ");
+		for (int i : intArray) {
+			System.out.println(i);
+		}
+	}
+}
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+Enter number of Count:- 
+6
+********************************************
+Display Fibonacci Series: 
+0
+1
+1
+2
+3
+5
